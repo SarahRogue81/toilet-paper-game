@@ -98,6 +98,18 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         let newBonus = prev.bonus;
 
         if (prev.bonusEnabled) {
+          // Bonus absorbs negative score only when bonus is positive
+          if (newScore < 0 && newBonus > 0) {
+            newBonus += newScore;
+            newScore = 0;
+          }
+
+          // If absorbing pushed bonus negative, score takes that value
+          if (newBonus < 0) {
+            newScore = newBonus;
+          }
+
+          // Bonus grows at every new multiple of K*2
           const prevMultiple = Math.floor(Math.max(0, prev.score) / doubleConstant);
           const newMultiple = Math.floor(Math.max(0, newScore) / doubleConstant);
           if (newMultiple > prevMultiple && newScore >= doubleConstant) {
