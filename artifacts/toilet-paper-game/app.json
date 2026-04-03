@@ -31,7 +31,8 @@
       ],
       "expo-font",
       "expo-web-browser",
-      "expo-av"
+      "expo-av",
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,
