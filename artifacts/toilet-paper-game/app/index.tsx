@@ -208,7 +208,7 @@ export default function HomeScreen() {
                   testID="start-btn"
                 >
                   <Text style={[styles.startBtnText, { color: colors.primaryForeground }]}>
-                    Start Session
+                    Let's clean up this mess!
                   </Text>
                 </TouchableOpacity>
               </Animated.View>
@@ -294,7 +294,7 @@ export default function HomeScreen() {
               {confirmingEnd ? (
                 <View style={styles.confirmRow}>
                   <Text style={[styles.confirmQuestion, { color: colors.foreground }]}>
-                    End session?
+                    Done wiping?
                   </Text>
                   <View style={styles.confirmButtons}>
                     <TouchableOpacity
