@@ -117,7 +117,7 @@ export default function StatsScreen() {
                 Best Tissue Average per Wipe
               </Text>
               <Text style={[styles.bigCardNum, { color: colors.accent }]}>
-                {stats.bestTissueAverage}
+                {stats.bestTissueAverage > 0 ? stats.bestTissueAverage.toFixed(1) : "—"}
               </Text>
               <Text style={[styles.bigCardSub, { color: colors.mutedForeground }]}>
                 squares per wipe (lower is better)

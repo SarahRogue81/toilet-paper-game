@@ -113,7 +113,7 @@ export default function HomeScreen() {
       setShowConfetti(true);
       const wipeCount = game.wipes.length;
       const tissueAvg =
-        wipeCount > 0 ? Math.round(game.totalSquares / wipeCount) : 0;
+        wipeCount > 0 ? game.totalSquares / wipeCount : 0;
       updateStats(game.finalScore, tissueAvg);
     }
   }, [isEnded]);
@@ -121,7 +121,8 @@ export default function HomeScreen() {
   const lastWipe = game.wipes[game.wipes.length - 1];
   const wipeCount = game.wipes.length;
   const tissueAvg =
-    wipeCount > 0 ? Math.round(game.totalSquares / wipeCount) : 0;
+    wipeCount > 0 ? game.totalSquares / wipeCount : 0;
+  const tissueAvgDisplay = tissueAvg > 0 ? tissueAvg.toFixed(1) : "—";
 
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
@@ -340,7 +341,7 @@ export default function HomeScreen() {
                 </View>
                 <View style={[styles.statPill, { backgroundColor: colors.secondary }]}>
                   <Text style={[styles.statPillLabel, { color: colors.mutedForeground }]}>Tissue Avg</Text>
-                  <Text style={[styles.statPillValue, { color: colors.foreground }]}>{tissueAvg}</Text>
+                  <Text style={[styles.statPillValue, { color: colors.foreground }]}>{tissueAvgDisplay}</Text>
                 </View>
                 <View style={[styles.statPill, { backgroundColor: colors.secondary }]}>
                   <Text style={[styles.statPillLabel, { color: colors.mutedForeground }]}>Squares</Text>
