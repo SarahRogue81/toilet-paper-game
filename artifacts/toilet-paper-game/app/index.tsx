@@ -1,4 +1,4 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -190,12 +190,9 @@ export default function HomeScreen() {
 
           {isIdle && (
             <Animated.View entering={FadeInDown.springify()} style={styles.idleSection}>
-              <MaterialCommunityIcons
-                name="toilet"
-                size={96}
-                color={colors.primary}
-                style={{ alignSelf: "center", marginBottom: 16 }}
-              />
+              <Text style={{ fontSize: 80, alignSelf: "center", marginBottom: 8 }}>
+                🚽
+              </Text>
               <Text style={[styles.idleText, { color: colors.foreground }]}>
                 Sit down and start tracking your wipes to play!
               </Text>
