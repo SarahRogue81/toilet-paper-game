@@ -2,7 +2,7 @@ import { Audio } from "expo-av";
 import { useEffect, useRef } from "react";
 import { Platform } from "react-native";
 
-const MUSIC_ASSET = require("../assets/audio/background_music.ogg");
+const MUSIC_ASSET = require("../assets/audio/background_music.mp3");
 
 export function useMusic(playing: boolean) {
   const soundRef = useRef<Audio.Sound | null>(null);
@@ -13,9 +13,9 @@ export function useMusic(playing: boolean) {
     playingRef.current = playing;
     if (!loadedRef.current || !soundRef.current) return;
     if (playing) {
-      soundRef.current.playAsync().catch(() => {});
+      soundRef.current.playAsync().catch((e) => console.warn("[music] play error:", e));
     } else {
-      soundRef.current.pauseAsync().catch(() => {});
+      soundRef.current.pauseAsync().catch((e) => console.warn("[music] pause error:", e));
     }
   }, [playing]);
 
@@ -42,7 +42,9 @@ export function useMusic(playing: boolean) {
         if (playingRef.current) {
           await sound.playAsync();
         }
-      } catch (_) {}
+      } catch (e) {
+        console.warn("[music] load error:", e);
+      }
     })();
 
     return () => {
