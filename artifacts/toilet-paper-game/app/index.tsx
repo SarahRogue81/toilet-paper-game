@@ -146,7 +146,7 @@ export default function HomeScreen() {
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={styles.container}>
       <TpBackground />
       <ConfettiEffect active={showConfetti} />
 
