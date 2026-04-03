@@ -1,8 +1,9 @@
 import { Audio } from "expo-av";
+import { Asset } from "expo-asset";
 import { useEffect, useRef } from "react";
 import { Platform } from "react-native";
 
-const MUSIC_ASSET = require("../assets/audio/background_music.mp3");
+const MUSIC_MODULE = require("../assets/audio/background_music.mp3");
 
 export function useMusic(playing: boolean) {
   const soundRef = useRef<Audio.Sound | null>(null);
@@ -29,8 +30,14 @@ export function useMusic(playing: boolean) {
           playsInSilentModeIOS: true,
           staysActiveInBackground: false,
         });
+
+        // Download asset to local filesystem so ExoPlayer gets a file:// URI
+        const asset = Asset.fromModule(MUSIC_MODULE);
+        await asset.downloadAsync();
+        if (!active) return;
+
         const { sound } = await Audio.Sound.createAsync(
-          MUSIC_ASSET,
+          { uri: asset.localUri! },
           { isLooping: true, volume: 0.3, shouldPlay: false }
         );
         if (!active) {
