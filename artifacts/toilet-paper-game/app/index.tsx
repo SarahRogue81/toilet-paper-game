@@ -130,6 +130,12 @@ export default function HomeScreen() {
     }
   }, [isEnded]);
 
+  useEffect(() => {
+    if (game.phase !== "playing") return;
+    const t = setTimeout(() => inputRef.current?.focus(), 50);
+    return () => clearTimeout(t);
+  }, [game.phase, game.wipes.length]);
+
   const lastWipe = game.wipes[game.wipes.length - 1];
   const wipeCount = game.wipes.length;
   const tissueAvg =
@@ -269,6 +275,7 @@ export default function HomeScreen() {
                     placeholder="e.g. 3"
                     placeholderTextColor={colors.mutedForeground}
                     returnKeyType="done"
+                    blurOnSubmit={false}
                     onSubmitEditing={handleWipe}
                     maxLength={3}
                     testID="wipe-input"
