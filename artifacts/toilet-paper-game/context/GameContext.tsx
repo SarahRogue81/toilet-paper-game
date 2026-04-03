@@ -127,7 +127,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           wipes: [...prev.wipes, wipeEntry],
           totalSquares: prev.totalSquares + squares,
         };
-
         persist(next);
         return next;
       });
