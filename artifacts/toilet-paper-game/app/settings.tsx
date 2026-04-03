@@ -30,6 +30,24 @@ export default function SettingsScreen() {
 
   const [username, setUsername] = useState(settings.username);
 
+  if (isPlaying) {
+    return (
+      <View style={[styles.blockedContainer, { backgroundColor: colors.background }]}>
+        <TpBackground />
+        <Text style={[styles.blockedTitle, { color: colors.text }]}>Settings Locked</Text>
+        <Text style={[styles.blockedSubtext, { color: colors.subtext }]}>
+          Finish or end your current game to change settings.
+        </Text>
+        <TouchableOpacity
+          style={[styles.backButton, { backgroundColor: colors.primary }]}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   const handleSaveUsername = () => {
     const trimmed = username.trim();
     if (!trimmed) {
@@ -280,5 +298,34 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Inter_400Regular",
     lineHeight: 22,
+  },
+  blockedContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 32,
+  },
+  blockedTitle: {
+    fontSize: 24,
+    fontFamily: "Inter_700Bold",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  blockedSubtext: {
+    fontSize: 15,
+    fontFamily: "Inter_400Regular",
+    textAlign: "center",
+    marginBottom: 32,
+    lineHeight: 22,
+  },
+  backButton: {
+    paddingHorizontal: 32,
+    paddingVertical: 14,
+    borderRadius: 12,
+  },
+  backButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Inter_700Bold",
   },
 });
