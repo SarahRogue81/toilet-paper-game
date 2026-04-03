@@ -122,7 +122,7 @@ export default function HomeScreen() {
   const wipeCount = game.wipes.length;
   const tissueAvg =
     wipeCount > 0 ? game.totalSquares / wipeCount : 0;
-  const tissueAvgDisplay = tissueAvg > 0 ? tissueAvg.toFixed(1) : "—";
+  const tissueAvgDisplay = tissueAvg > 0 ? String(Math.round(tissueAvg)) : "—";
 
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
@@ -340,7 +340,7 @@ export default function HomeScreen() {
                   <Text style={[styles.statPillValue, { color: colors.foreground }]}>{wipeCount}</Text>
                 </View>
                 <View style={[styles.statPill, { backgroundColor: colors.secondary }]}>
-                  <Text style={[styles.statPillLabel, { color: colors.mutedForeground }]}>Tissue Avg</Text>
+                  <Text style={[styles.statPillLabel, { color: colors.mutedForeground }]}>Tissues/Wipe Avg</Text>
                   <Text style={[styles.statPillValue, { color: colors.foreground }]}>{tissueAvgDisplay}</Text>
                 </View>
                 <View style={[styles.statPill, { backgroundColor: colors.secondary }]}>

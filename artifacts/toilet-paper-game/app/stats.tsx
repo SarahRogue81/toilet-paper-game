@@ -44,7 +44,7 @@ export default function StatsScreen() {
     );
   };
 
-  const hasStats = stats.highScore > 0 || stats.bestTissueAverage > 0;
+  const hasStats = stats.highScore > 0 || stats.lastTissueAverage > 0;
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -114,13 +114,13 @@ export default function StatsScreen() {
                 style={{ alignSelf: "center" }}
               />
               <Text style={[styles.bigCardLabel, { color: colors.mutedForeground }]}>
-                Best Tissue Average per Wipe
+                Tissues per Wipe Avg
               </Text>
               <Text style={[styles.bigCardNum, { color: colors.accent }]}>
-                {stats.bestTissueAverage > 0 ? stats.bestTissueAverage.toFixed(1) : "—"}
+                {stats.lastTissueAverage > 0 ? Math.round(stats.lastTissueAverage) : "—"}
               </Text>
               <Text style={[styles.bigCardSub, { color: colors.mutedForeground }]}>
-                squares per wipe (lower is better)
+                squares per wipe (last session)
               </Text>
             </Animated.View>
 

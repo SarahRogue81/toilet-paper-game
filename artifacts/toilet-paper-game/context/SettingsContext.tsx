@@ -15,7 +15,7 @@ export interface Settings {
 
 export interface Stats {
   highScore: number;
-  bestTissueAverage: number;
+  lastTissueAverage: number;
 }
 
 interface SettingsContextValue {
@@ -35,7 +35,7 @@ const DEFAULT_SETTINGS: Settings = {
 
 const DEFAULT_STATS: Stats = {
   highScore: 0,
-  bestTissueAverage: 0,
+  lastTissueAverage: 0,
 };
 
 const SETTINGS_KEY = "@tpg_settings";
@@ -56,7 +56,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(STATS_KEY),
         ]);
         if (settingsRaw) setSettings(JSON.parse(settingsRaw));
-        if (statsRaw) setStats(JSON.parse(statsRaw));
+        if (statsRaw) {
+          const parsed = JSON.parse(statsRaw);
+          setStats({
+            highScore: parsed.highScore ?? 0,
+            lastTissueAverage: parsed.lastTissueAverage ?? parsed.bestTissueAverage ?? 0,
+          });
+        }
       } catch (_) {
       } finally {
         setIsLoaded(true);
@@ -75,16 +81,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const updateStats = useCallback(
     async (finalScore: number, tissueAverage: number) => {
       setStats((prev) => {
-        const hasValidAverage = tissueAverage > 0;
         const next: Stats = {
           highScore: Math.max(prev.highScore, finalScore),
-          bestTissueAverage: hasValidAverage
-            ? prev.bestTissueAverage === 0
-              ? tissueAverage
-              : tissueAverage < prev.bestTissueAverage
-                ? tissueAverage
-                : prev.bestTissueAverage
-            : prev.bestTissueAverage,
+          lastTissueAverage: tissueAverage > 0 ? tissueAverage : prev.lastTissueAverage,
         };
         AsyncStorage.setItem(STATS_KEY, JSON.stringify(next)).catch(() => {});
         return next;
