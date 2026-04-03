@@ -83,7 +83,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       setStats((prev) => {
         const next: Stats = {
           highScore: Math.max(prev.highScore, finalScore),
-          lastTissueAverage: tissueAverage > 0 ? tissueAverage : prev.lastTissueAverage,
+          lastTissueAverage: tissueAverage > 0
+            ? Math.max(prev.lastTissueAverage, tissueAverage)
+            : prev.lastTissueAverage,
         };
         AsyncStorage.setItem(STATS_KEY, JSON.stringify(next)).catch(() => {});
         return next;

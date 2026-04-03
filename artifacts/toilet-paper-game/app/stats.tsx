@@ -120,7 +120,7 @@ export default function StatsScreen() {
                 {stats.lastTissueAverage > 0 ? Math.round(stats.lastTissueAverage) : "—"}
               </Text>
               <Text style={[styles.bigCardSub, { color: colors.mutedForeground }]}>
-                squares per wipe (last session)
+                squares per wipe (highest session)
               </Text>
             </Animated.View>
 
