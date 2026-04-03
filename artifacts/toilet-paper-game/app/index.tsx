@@ -51,6 +51,7 @@ export default function HomeScreen() {
 
   const buttonScale = useSharedValue(1);
   const scoreScale = useSharedValue(1);
+  const inputFlash = useSharedValue(0);
 
   const animButton = useAnimatedStyle(() => ({
     transform: [{ scale: buttonScale.value }],
@@ -58,6 +59,10 @@ export default function HomeScreen() {
 
   const animScore = useAnimatedStyle(() => ({
     transform: [{ scale: scoreScale.value }],
+  }));
+
+  const animFlash = useAnimatedStyle(() => ({
+    opacity: inputFlash.value,
   }));
 
   const handleStart = useCallback(() => {
@@ -74,9 +79,15 @@ export default function HomeScreen() {
 
   const handleWipe = useCallback(() => {
     const sq = parseInt(inputValue, 10);
-    if (isNaN(sq) || sq < 0) {
+    if (isNaN(sq) || sq < 1) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      Alert.alert("Invalid Input", "Please enter a valid number of squares (0 or more).");
+      inputFlash.value = withSequence(
+        withTiming(1, { duration: 60 }),
+        withTiming(0, { duration: 300 })
+      );
+      setInputValue("");
+      inputRef.current?.clear();
+      inputRef.current?.focus();
       return;
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -233,7 +244,7 @@ export default function HomeScreen() {
                 </Animated.View>
               )}
 
-              <View style={[styles.inputCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+              <View style={[styles.inputCard, { backgroundColor: colors.card, borderColor: colors.border, overflow: "hidden" }]}>
                 <Text style={[styles.inputLabel, { color: colors.foreground }]}>
                   How many squares for this wipe?
                 </Text>
@@ -269,6 +280,10 @@ export default function HomeScreen() {
                     <Ionicons name="checkmark" size={26} color={colors.primaryForeground} />
                   </TouchableOpacity>
                 </View>
+                <Animated.View
+                  pointerEvents="none"
+                  style={[StyleSheet.absoluteFill, { backgroundColor: "#ff3333", borderRadius: 12 }, animFlash]}
+                />
               </View>
 
               {confirmingEnd ? (
