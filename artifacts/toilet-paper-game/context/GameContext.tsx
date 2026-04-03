@@ -93,23 +93,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
         const doubleConstant = constant * 2;
 
-        let newScore = prev.score + (constant - squares);
+        const delta = constant - squares;
+        let newScore = prev.score + delta;
         let newBonus = prev.bonus;
 
         if (prev.bonusEnabled) {
-          if (newScore < 0) {
-            newBonus += newScore;
-            newScore = 0;
-          }
-
-          const prevMultiple = Math.floor(prev.score / doubleConstant);
-          const newMultiple = Math.floor(newScore / doubleConstant);
+          const prevMultiple = Math.floor(Math.max(0, prev.score) / doubleConstant);
+          const newMultiple = Math.floor(Math.max(0, newScore) / doubleConstant);
           if (newMultiple > prevMultiple && newScore >= doubleConstant) {
             newBonus += (newMultiple - prevMultiple) * constant;
-          }
-        } else {
-          if (newScore < 0) {
-            newScore = 0;
           }
         }
 
