@@ -2,7 +2,7 @@ import { Audio } from "expo-av";
 import { useEffect, useRef } from "react";
 import { Platform } from "react-native";
 
-const MUSIC_ASSET = require("../assets/audio/background_music.mp3");
+const MUSIC_ASSET = require("../assets/audio/background_music.ogg");
 
 export function useMusic(playing: boolean) {
   const soundRef = useRef<Audio.Sound | null>(null);

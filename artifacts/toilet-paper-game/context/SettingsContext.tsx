@@ -75,14 +75,16 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const updateStats = useCallback(
     async (finalScore: number, tissueAverage: number) => {
       setStats((prev) => {
+        const hasValidAverage = tissueAverage > 0;
         const next: Stats = {
           highScore: Math.max(prev.highScore, finalScore),
-          bestTissueAverage:
-            prev.bestTissueAverage === 0
+          bestTissueAverage: hasValidAverage
+            ? prev.bestTissueAverage === 0
               ? tissueAverage
               : tissueAverage < prev.bestTissueAverage
                 ? tissueAverage
-                : prev.bestTissueAverage,
+                : prev.bestTissueAverage
+            : prev.bestTissueAverage,
         };
         AsyncStorage.setItem(STATS_KEY, JSON.stringify(next)).catch(() => {});
         return next;

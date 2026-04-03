@@ -41,8 +41,8 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
   - `app/stats.tsx` — [Username]'s stats (high score, tissue average)
   - `components/TpBackground.tsx` — decorative TP roll SVG background
   - `components/ConfettiEffect.tsx` — end-of-game celebration animation
-  - `hooks/useMusic.ts` — background music using expo-av (bundled MP3)
-  - `assets/audio/background_music.mp3` — bundled public domain background music
+  - `hooks/useMusic.ts` — background music using expo-av (bundled OGG)
+  - `assets/audio/background_music.ogg` — bundled public domain background music (Bach BWV 543, Wikimedia Commons)
 - **Game constant (K)**: Default 4, configurable 1–6 in settings
 - **Score formula**: `score += K - squares_used`; negative → BONUS absorbs, score resets to 0
 - **BONUS**: Starts at K (if enabled), grows by K each time score passes multiples of 2K
