@@ -3,7 +3,6 @@ import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -41,6 +40,7 @@ export default function HomeScreen() {
   const { settings, stats, updateStats } = useSettings();
   const [inputValue, setInputValue] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
+  const [confirmingEnd, setConfirmingEnd] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
   const isPlaying = game.phase === "playing";
@@ -87,22 +87,19 @@ export default function HomeScreen() {
   }, [inputValue, settings.constant, recordWipe]);
 
   const handleEndGame = useCallback(() => {
-    Alert.alert(
-      "Done Wiping?",
-      "Ready to end this session and see your final score?",
-      [
-        { text: "Not yet", style: "cancel" },
-        {
-          text: "Yes, done!",
-          style: "default",
-          onPress: () => {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            endGame();
-          },
-        },
-      ]
-    );
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setConfirmingEnd(true);
+  }, []);
+
+  const handleConfirmEnd = useCallback(() => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    setConfirmingEnd(false);
+    endGame();
   }, [endGame]);
+
+  const handleCancelEnd = useCallback(() => {
+    setConfirmingEnd(false);
+  }, []);
 
   const handleNewGame = useCallback(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -273,15 +270,43 @@ export default function HomeScreen() {
                 </View>
               </View>
 
-              <TouchableOpacity
-                style={[styles.endBtn, { backgroundColor: colors.accent }]}
-                onPress={handleEndGame}
-                testID="end-game-btn"
-              >
-                <Text style={[styles.endBtnText, { color: colors.accentForeground }]}>
-                  Done Wiping
-                </Text>
-              </TouchableOpacity>
+              {confirmingEnd ? (
+                <View style={styles.confirmRow}>
+                  <Text style={[styles.confirmQuestion, { color: colors.foreground }]}>
+                    End session?
+                  </Text>
+                  <View style={styles.confirmButtons}>
+                    <TouchableOpacity
+                      style={[styles.confirmBtn, { backgroundColor: colors.secondary }]}
+                      onPress={handleCancelEnd}
+                      testID="cancel-end-btn"
+                    >
+                      <Text style={[styles.confirmBtnText, { color: colors.foreground }]}>
+                        Not yet
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.confirmBtn, { backgroundColor: colors.accent }]}
+                      onPress={handleConfirmEnd}
+                      testID="confirm-end-btn"
+                    >
+                      <Text style={[styles.confirmBtnText, { color: colors.accentForeground }]}>
+                        Yes, done!
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={[styles.endBtn, { backgroundColor: colors.accent }]}
+                  onPress={handleEndGame}
+                  testID="end-game-btn"
+                >
+                  <Text style={[styles.endBtnText, { color: colors.accentForeground }]}>
+                    Done Wiping
+                  </Text>
+                </TouchableOpacity>
+              )}
             </Animated.View>
           )}
 
@@ -517,6 +542,28 @@ const styles = StyleSheet.create({
   },
   endBtnText: {
     fontSize: 16,
+    fontFamily: "Inter_600SemiBold",
+  },
+  confirmRow: {
+    gap: 10,
+  },
+  confirmQuestion: {
+    fontSize: 16,
+    fontFamily: "Inter_600SemiBold",
+    textAlign: "center",
+  },
+  confirmButtons: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  confirmBtn: {
+    flex: 1,
+    borderRadius: 16,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  confirmBtnText: {
+    fontSize: 15,
     fontFamily: "Inter_600SemiBold",
   },
   endSection: {
