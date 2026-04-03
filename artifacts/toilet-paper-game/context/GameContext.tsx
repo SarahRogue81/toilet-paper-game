@@ -104,9 +104,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             newScore = 0;
           }
 
-          // If absorbing pushed bonus negative, score takes that value
+          // If absorbing pushed bonus negative, overflow goes to score and bonus resets
           if (newBonus < 0) {
-            newScore = newBonus;
+            newScore += newBonus;
+            newBonus = 0;
           }
 
           // Bonus grows at every new multiple of K*2
