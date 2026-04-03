@@ -95,6 +95,7 @@ export default function HomeScreen() {
     recordWipe(sq, settings.constant);
     setInputValue("");
     inputRef.current?.clear();
+    inputRef.current?.focus();
   }, [inputValue, settings.constant, recordWipe]);
 
   const handleEndGame = useCallback(() => {
