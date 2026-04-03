@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -86,14 +85,14 @@ export default function SettingsScreen() {
               style={[styles.backBtn, { backgroundColor: colors.card, borderColor: colors.border }]}
               testID="back-btn"
             >
-              <Ionicons name="arrow-back" size={22} color={colors.foreground} />
+              <Text style={{ fontSize: 20, color: colors.foreground }}>←</Text>
             </TouchableOpacity>
             <Text style={[styles.title, { color: colors.foreground }]}>Settings</Text>
           </View>
 
           {isPlaying && (
             <View style={[styles.warnBanner, { backgroundColor: colors.accent + "22", borderColor: colors.accent }]}>
-              <Ionicons name="warning-outline" size={16} color={colors.accent} />
+              <Text style={{ fontSize: 15 }}>⚠️</Text>
               <Text style={[styles.warnText, { color: colors.accent }]}>
                 Some settings cannot be changed during a game.
               </Text>
@@ -123,7 +122,7 @@ export default function SettingsScreen() {
                 onPress={handleSaveUsername}
                 testID="save-username-btn"
               >
-                <Ionicons name="checkmark" size={20} color={colors.primaryForeground} />
+                <Text style={{ fontSize: 18, color: colors.primaryForeground }}>✓</Text>
               </TouchableOpacity>
             </View>
           </View>

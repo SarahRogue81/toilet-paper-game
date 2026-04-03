@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -175,7 +174,7 @@ export default function HomeScreen() {
                 onPress={() => router.push("/stats")}
                 testID="stats-btn"
               >
-                <Ionicons name="trophy-outline" size={22} color={colors.primary} />
+                <Text style={{ fontSize: 20 }}>🏆</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.iconBtn, { backgroundColor: colors.card, borderColor: colors.border, opacity: isPlaying ? 0.4 : 1 }]}
@@ -183,7 +182,7 @@ export default function HomeScreen() {
                 disabled={isPlaying}
                 testID="settings-btn"
               >
-                <Ionicons name="settings-outline" size={22} color={colors.foreground} />
+                <Text style={{ fontSize: 20 }}>⚙️</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -282,7 +281,7 @@ export default function HomeScreen() {
                     onPress={handleWipe}
                     testID="submit-wipe-btn"
                   >
-                    <Ionicons name="checkmark" size={26} color={colors.primaryForeground} />
+                    <Text style={{ fontSize: 22, color: colors.primaryForeground }}>✓</Text>
                   </TouchableOpacity>
                 </View>
                 <Animated.View

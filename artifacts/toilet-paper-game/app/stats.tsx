@@ -1,4 +1,3 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -51,7 +50,7 @@ export default function StatsScreen() {
             style={[styles.backBtn, { backgroundColor: colors.card, borderColor: colors.border }]}
             testID="back-btn"
           >
-            <Ionicons name="arrow-back" size={22} color={colors.foreground} />
+            <Text style={{ fontSize: 20, color: colors.foreground }}>←</Text>
           </TouchableOpacity>
           <Text style={[styles.title, { color: colors.foreground }]}>
             {settings.username}'s Stats
@@ -62,12 +61,7 @@ export default function StatsScreen() {
           entering={FadeInDown.delay(100).springify()}
           style={[styles.bigCard, { backgroundColor: colors.card, borderColor: colors.border }]}
         >
-          <MaterialCommunityIcons
-            name="trophy"
-            size={40}
-            color={colors.primary}
-            style={{ alignSelf: "center" }}
-          />
+          <Text style={{ fontSize: 36, textAlign: "center" }}>🏆</Text>
           <Text style={[styles.bigCardLabel, { color: colors.mutedForeground }]}>
             High Score
           </Text>
@@ -80,12 +74,7 @@ export default function StatsScreen() {
           entering={FadeInDown.delay(200).springify()}
           style={[styles.bigCard, { backgroundColor: colors.card, borderColor: colors.border }]}
         >
-          <MaterialCommunityIcons
-            name="hand-wash"
-            size={40}
-            color={colors.accent}
-            style={{ alignSelf: "center" }}
-          />
+          <Text style={{ fontSize: 36, textAlign: "center" }}>🧻</Text>
           <Text style={[styles.bigCardLabel, { color: colors.mutedForeground }]}>
             Tissues per Wipe Avg
           </Text>
@@ -124,7 +113,7 @@ export default function StatsScreen() {
             onPress={handleReset}
             testID="reset-stats-btn"
           >
-            <Ionicons name="trash-outline" size={18} color={colors.destructive} />
+            <Text style={{ fontSize: 16 }}>🗑️</Text>
             <Text style={[styles.resetText, { color: colors.destructive }]}>
               Reset Stats
             </Text>
