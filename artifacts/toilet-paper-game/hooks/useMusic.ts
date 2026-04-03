@@ -2,7 +2,7 @@ import { Audio } from "expo-av";
 import { useEffect, useRef } from "react";
 import { Platform } from "react-native";
 
-const MUSIC_URL = "https://ia801707.us.archive.org/1/items/JeremyClarke_-_Music_Box_Adventure/JeremyClarke_-_Music_Box_Adventure.ogg";
+const MUSIC_ASSET = require("../assets/audio/background_music.mp3");
 
 export function useMusic(playing: boolean) {
   const soundRef = useRef<Audio.Sound | null>(null);
@@ -30,7 +30,7 @@ export function useMusic(playing: boolean) {
           staysActiveInBackground: false,
         });
         const { sound } = await Audio.Sound.createAsync(
-          { uri: MUSIC_URL },
+          MUSIC_ASSET,
           { isLooping: true, volume: 0.3, shouldPlay: false }
         );
         if (!active) {

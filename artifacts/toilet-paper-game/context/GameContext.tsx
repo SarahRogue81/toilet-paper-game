@@ -20,6 +20,7 @@ export interface GameState {
   phase: GamePhase;
   score: number;
   bonus: number;
+  bonusEnabled: boolean;
   wipes: WipeEntry[];
   finalScore: number | null;
   totalSquares: number;
@@ -39,6 +40,7 @@ const INITIAL_GAME: GameState = {
   phase: "idle",
   score: 0,
   bonus: 0,
+  bonusEnabled: true,
   wipes: [],
   finalScore: null,
   totalSquares: 0,
@@ -73,6 +75,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         phase: "playing",
         score: 0,
         bonus: bonusEnabled ? constant : 0,
+        bonusEnabled,
         wipes: [],
         finalScore: null,
         totalSquares: 0,
@@ -93,15 +96,21 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         let newScore = prev.score + (constant - squares);
         let newBonus = prev.bonus;
 
-        if (newScore < 0) {
-          newBonus += newScore;
-          newScore = 0;
-        }
+        if (prev.bonusEnabled) {
+          if (newScore < 0) {
+            newBonus += newScore;
+            newScore = 0;
+          }
 
-        const prevMultiple = Math.floor(prev.score / doubleConstant);
-        const newMultiple = Math.floor(newScore / doubleConstant);
-        if (newMultiple > prevMultiple && newScore >= doubleConstant) {
-          newBonus += (newMultiple - prevMultiple) * constant;
+          const prevMultiple = Math.floor(prev.score / doubleConstant);
+          const newMultiple = Math.floor(newScore / doubleConstant);
+          if (newMultiple > prevMultiple && newScore >= doubleConstant) {
+            newBonus += (newMultiple - prevMultiple) * constant;
+          }
+        } else {
+          if (newScore < 0) {
+            newScore = 0;
+          }
         }
 
         const wipeEntry: WipeEntry = {
@@ -129,7 +138,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const endGame = useCallback(() => {
     setGame((prev) => {
       if (prev.phase !== "playing") return prev;
-      const finalScore = prev.score + prev.bonus;
+      const finalScore = prev.bonusEnabled
+        ? prev.score + prev.bonus
+        : prev.score;
       const next: GameState = {
         ...prev,
         phase: "ended",
