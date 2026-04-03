@@ -186,7 +186,7 @@ export default function SettingsScreen() {
             <Text style={[styles.sectionTitle, { color: colors.foreground }]}>How It Works</Text>
             <Text style={[styles.howText, { color: colors.mutedForeground }]}>
               {"• Each wipe, enter how many squares you used.\n"}
-              {"• score += constant − squares used\n"}
+              {"• score += " + settings.constant + " − squares used\n"}
               {"• If score goes negative: bonus absorbs it, score resets to 0\n"}
               {"• Bonus grows when score crosses multiples of " + (settings.constant * 2) + "\n"}
               {"• Final score = score + bonus"}
