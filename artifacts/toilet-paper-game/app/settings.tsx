@@ -85,7 +85,7 @@ export default function SettingsScreen() {
               style={[styles.backBtn, { backgroundColor: colors.card, borderColor: colors.border }]}
               testID="back-btn"
             >
-              <Text style={{ fontSize: 20, color: colors.foreground }}>←</Text>
+              <Text style={{ fontSize: 24, color: colors.foreground, fontWeight: "bold" }}>{"<"}</Text>
             </TouchableOpacity>
             <Text style={[styles.title, { color: colors.foreground }]}>Settings</Text>
           </View>
