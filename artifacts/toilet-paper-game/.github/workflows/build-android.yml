@@ -1,0 +1,73 @@
+name: Build Android APK & Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. v0.0.1)'
+        required: true
+        default: 'v0.0.1'
+
+jobs:
+  build:
+    name: Build & Publish Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Android APK via EAS
+        id: eas_build
+        run: |
+          eas build \
+            --platform android \
+            --profile preview \
+            --non-interactive \
+            --wait \
+            --json \
+            2>/dev/null | tee build_result.json
+          APK_URL=$(jq -r '.[0].artifacts.buildUrl // .[0].artifacts.applicationArchiveUrl' build_result.json)
+          echo "apk_url=$APK_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Download APK
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          curl -L "${{ steps.eas_build.outputs.apk_url }}" \
+            -o "the-toilet-paper-game_${VERSION}.apk"
+          echo "APK downloaded: the-toilet-paper-game_${VERSION}.apk"
+          ls -lh "the-toilet-paper-game_${VERSION}.apk"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: "The Toilet Paper Game ${{ github.event.inputs.version }}"
+          body: |
+            ## The Toilet Paper Game ${{ github.event.inputs.version }}
+
+            ### Install on Android
+            1. Download `the-toilet-paper-game_${{ github.event.inputs.version }}.apk` below
+            2. On your Android device, go to **Settings → Apps → Install unknown apps** and allow your browser/Files app
+            3. Open the downloaded APK and tap **Install**
+
+            **Requires Android API 29+ (Android 10 or higher)**
+          files: the-toilet-paper-game_${{ github.event.inputs.version }}.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
