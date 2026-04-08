@@ -147,7 +147,7 @@ The app plays silently if the file is missing — no errors will occur.
 
 | Concept | Details |
 |---------|---------|
-| **Square Constant (K)** | Set in Settings (default 8). The "perfect" number of squares per wipe. |
+| **Square Constant (K)** | Set in Settings (default 4). The "perfect" number of squares per wipe. |
 | **Score per wipe** | `score += K − squares used` |
 | **Bonus** | Starts at K. Absorbs negative score when positive. |
 | **Bonus drain** | If score goes negative and bonus > 0: `bonus += score; score = 0` |
